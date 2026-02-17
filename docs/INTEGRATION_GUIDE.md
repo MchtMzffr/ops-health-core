@@ -4,7 +4,7 @@
 
 Pin schema version:
 ```toml
-dependencies = ["decision-schema>=0.1,<0.2"]
+dependencies = ["decision-schema>=0.2,<0.3"]
 ```
 
 ## Basic Usage
@@ -36,15 +36,18 @@ signal = update_kill_switch(state, policy, now_ms=2000)
 context = signal.to_context()
 ```
 
-## DMC Integration
+## DMC Integration (integration layer only)
+
+**Note:** ops-health-core does **not** depend on DMC. The following is an example of how to use ops-health signals in your **integration layer** (e.g. when building the context dict passed to DMC).
 
 ```python
 from ops_health_core.kill_switch import update_kill_switch
 from ops_health_core.model import OpsPolicy, OpsState
-from dmc_core.dmc.modulator import modulate
-from dmc_core.dmc.risk_policy import RiskPolicy
+# DMC is used only in your integration code, not as a dependency of ops-health-core:
+# from dmc_core.dmc.modulator import modulate
+# from dmc_core.dmc.risk_policy import RiskPolicy
 
-# In your DMC context building:
+# In your DMC context building (caller's code):
 signal = update_kill_switch(state, policy, now_ms)
 context.update(signal.to_context())
 

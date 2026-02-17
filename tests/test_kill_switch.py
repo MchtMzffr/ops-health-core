@@ -57,3 +57,31 @@ def test_kill_switch_green_no_cooldown() -> None:
     assert signal.state == HealthState.GREEN
     assert signal.deny_actions is False
     assert state.cooldown_until_ms is None
+
+
+def test_kill_switch_fail_closed() -> None:
+    """Fail-closed: when RED or in cooldown, deny_actions=True and recommended_action=HOLD."""
+    policy = OpsPolicy(
+        max_errors_per_window=2,
+        max_429_per_window=2,
+        cooldown_ms=5000,
+        window_ms=10000,
+        score_threshold_red=0.5,
+        weight_errors=1.0,
+    )
+    now_ms = 10000
+
+    # Force RED by exceeding error budget
+    state_red = OpsState()
+    state_red.error_timestamps = [9000, 9500, 9900]
+    signal_red = update_kill_switch(state_red, policy, now_ms)
+    if signal_red.state == HealthState.RED:
+        assert signal_red.deny_actions is True
+        assert signal_red.recommended_action == Action.HOLD
+
+    # Cooldown active => must deny and recommend HOLD
+    state_cool = OpsState()
+    state_cool.cooldown_until_ms = now_ms + 3000
+    signal_cool = update_kill_switch(state_cool, policy, now_ms)
+    assert signal_cool.deny_actions is True
+    assert signal_cool.recommended_action == Action.HOLD

@@ -14,4 +14,4 @@ def test_schema_version_import() -> None:
 
 def test_schema_compatibility() -> None:
     """Verify schema compatibility check."""
-    check_schema_compatibility(expected_minor=1)
+    check_schema_compatibility(expected_minor=2)
