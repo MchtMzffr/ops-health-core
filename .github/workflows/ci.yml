@@ -33,6 +33,10 @@ jobs:
       - name: Install test tooling
         run: pip install -U pip pytest build
 
+      - name: Install decision-schema (pinned, fallback to git)
+        run: |
+          pip install "decision-schema>=0.2,<0.3" || pip install "git+https://github.com/MchtMzffr/decision-schema.git"
+
       - name: Install package
         run: pip install -e .
 
