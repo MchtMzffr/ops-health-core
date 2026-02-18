@@ -1,3 +1,6 @@
+# Decision Ecosystem — ops-health-core
+# Copyright (c) 2026 Mücahit Muzaffer Karafil (MchtMzffr)
+# SPDX-License-Identifier: MIT
 """CLI for ops-health-core (offline demo)."""
 
 import argparse

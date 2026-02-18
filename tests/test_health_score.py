@@ -1,3 +1,6 @@
+# Decision Ecosystem — ops-health-core
+# Copyright (c) 2026 Mücahit Muzaffer Karafil (MchtMzffr)
+# SPDX-License-Identifier: MIT
 """Tests for health score computation."""
 
 from ops_health_core.model import HealthState, OpsPolicy, OpsState

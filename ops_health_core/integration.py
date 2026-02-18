@@ -1,3 +1,6 @@
+# Decision Ecosystem — ops-health-core
+# Copyright (c) 2026 Mücahit Muzaffer Karafil (MchtMzffr)
+# SPDX-License-Identifier: MIT
 """Integration helpers for DMC and PacketV2."""
 
 from typing import Any

@@ -1,3 +1,8 @@
+<!--
+Decision Ecosystem — ops-health-core
+Copyright (c) 2026 Mücahit Muzaffer Karafil (MchtMzffr)
+SPDX-License-Identifier: MIT
+-->
 # ops-health-core (Operational Safety & Kill-Switch)
 
 This core produces operational safety signals and kill-switch decisions for the decision ecosystem.

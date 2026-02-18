@@ -1,3 +1,6 @@
+# Decision Ecosystem — ops-health-core
+# Copyright (c) 2026 Mücahit Muzaffer Karafil (MchtMzffr)
+# SPDX-License-Identifier: MIT
 """Tests for kill switch."""
 
 from ops_health_core.kill_switch import update_kill_switch

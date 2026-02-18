@@ -1,3 +1,6 @@
+# Decision Ecosystem — ops-health-core
+# Copyright (c) 2026 Mücahit Muzaffer Karafil (MchtMzffr)
+# SPDX-License-Identifier: MIT
 """Tests for sliding window."""
 
 from ops_health_core.windows import count_in_window, prune_timestamps

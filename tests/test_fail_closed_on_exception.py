@@ -1,3 +1,6 @@
+# Decision Ecosystem — ops-health-core
+# Copyright (c) 2026 Mücahit Muzaffer Karafil (MchtMzffr)
+# SPDX-License-Identifier: MIT
 """Fail-closed on exception: update_kill_switch must return deny_actions=True, recommended_action=HOLD."""
 
 import pytest

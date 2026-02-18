@@ -1,3 +1,8 @@
+<!--
+Decision Ecosystem — ops-health-core
+Copyright (c) 2026 Mücahit Muzaffer Karafil (MchtMzffr)
+SPDX-License-Identifier: MIT
+-->
 # Architecture — ops-health-core
 
 ## Role in the ecosystem
