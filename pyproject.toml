@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "ops-health-core"
-version = "0.1.0"
+version = "0.1.1"
 description = "Ops-Health Core: Operational safety signals, rate-limit budgets, latency watchdog, kill-switch recommendations"
 requires-python = ">=3.11"
 dependencies = [
