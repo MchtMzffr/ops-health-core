@@ -36,6 +36,28 @@ def update_kill_switch(
     prune_timestamps_inplace(state.rate_limit_timestamps, now_ms, policy.window_ms)
     prune_timestamps_inplace(state.reconnect_timestamps, now_ms, policy.window_ms)
     
+    # Prune latency_samples and latency_timestamps together (P1 fix)
+    # Keep only samples with timestamps within window
+    cutoff_ms = now_ms - policy.window_ms
+    if state.latency_samples and state.latency_timestamps:
+        # Ensure same length (take minimum)
+        min_len = min(len(state.latency_samples), len(state.latency_timestamps))
+        pruned_samples = []
+        pruned_timestamps = []
+        for i in range(min_len):
+            ts = state.latency_timestamps[i]
+            if ts >= cutoff_ms:
+                pruned_samples.append(state.latency_samples[i])
+                pruned_timestamps.append(ts)
+        state.latency_samples[:] = pruned_samples
+        state.latency_timestamps[:] = pruned_timestamps
+    elif state.latency_timestamps:
+        # Only timestamps exist, prune them
+        prune_timestamps_inplace(state.latency_timestamps, now_ms, policy.window_ms)
+    elif state.latency_samples:
+        # Only samples exist (legacy), clear them
+        state.latency_samples.clear()
+    
     try:
         score, health_state = compute_health_score(state, policy, now_ms)
     except Exception as e:

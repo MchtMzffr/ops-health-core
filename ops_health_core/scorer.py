@@ -34,19 +34,22 @@ def compute_health_score(state: OpsState, policy: OpsPolicy, now_ms: int) -> tup
     p_429 = min(1.0, rate_limits / policy.max_429_per_window) if policy.max_429_per_window > 0 else 0.0
     p_rec = min(1.0, reconnects / policy.max_reconnects_per_window) if policy.max_reconnects_per_window > 0 else 0.0
 
-    # Latency penalty
-    # Note: latency_samples is currently timestamp-less; consider adding latency_timestamps
-    # for proper window pruning. For now, we compute p95 on all samples.
-    # TODO (F2): Add latency_timestamps to OpsState for proper window-based pruning
+    # Latency penalty (window-based pruning, P1 fix)
+    # Note: latency_samples and latency_timestamps are pruned together in kill_switch.py
+    # Here we compute p95 on windowed samples (already pruned by kill_switch)
     p_lat = 0.0
-    if state.latency_samples:
-        sorted_latencies = sorted(state.latency_samples)
-        n = len(sorted_latencies)
-        if n > 0:
-            p95_idx = int(0.95 * n)
-            p95_latency = sorted_latencies[min(p95_idx, n - 1)]
-            if p95_latency > policy.max_p95_latency_ms:
-                p_lat = min(1.0, (p95_latency - policy.max_p95_latency_ms) / policy.max_p95_latency_ms)
+    if state.latency_samples and state.latency_timestamps:
+        # Ensure same length (defensive check)
+        min_len = min(len(state.latency_samples), len(state.latency_timestamps))
+        if min_len > 0:
+            windowed_samples = state.latency_samples[:min_len]
+            sorted_latencies = sorted(windowed_samples)
+            n = len(sorted_latencies)
+            if n > 0:
+                p95_idx = int(0.95 * n)
+                p95_latency = sorted_latencies[min(p95_idx, n - 1)]
+                if p95_latency > policy.max_p95_latency_ms:
+                    p_lat = min(1.0, (p95_latency - policy.max_p95_latency_ms) / policy.max_p95_latency_ms)
 
     # Weighted score
     score = 1.0 - (

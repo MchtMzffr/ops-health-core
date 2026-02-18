@@ -42,6 +42,7 @@ class OpsState:
     rate_limit_timestamps: list[int] = field(default_factory=list)
     reconnect_timestamps: list[int] = field(default_factory=list)
     latency_samples: list[int] = field(default_factory=list)
+    latency_timestamps: list[int] = field(default_factory=list)
     cooldown_until_ms: int | None = None
 
 

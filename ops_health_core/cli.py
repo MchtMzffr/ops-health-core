@@ -59,7 +59,9 @@ def main() -> None:
         elif event_type == "reconnect":
             state.reconnect_timestamps.append(ts_ms)
         elif event_type == "latency":
-            state.latency_samples.append(event.get("latency_ms", 0))
+            latency_ms = event.get("latency_ms", 0)
+            state.latency_samples.append(latency_ms)
+            state.latency_timestamps.append(ts_ms)
 
     # Update kill switch
     signal = update_kill_switch(state, policy, now_ms)
