@@ -2,6 +2,7 @@
 # Copyright (c) 2026 Mücahit Muzaffer Karafil (MchtMzffr)
 # SPDX-License-Identifier: MIT
 """CI-0: Workflow file hygiene — CR=0, LF>=10, no control/embedding Unicode, on:/jobs: line-addressable."""
+
 import re
 from pathlib import Path
 
@@ -38,7 +39,8 @@ def test_invariant_ci_0_workflow_hygiene() -> None:
     for path in workflow_files:
         b = path.read_bytes()
         if b"\r" in b:
-            failures.append(f"{path}: contains CR bytes (count={b.count(b'\r')})")
+            cr_count = b.count(b"\r")
+            failures.append(f"{path}: contains CR bytes (count={cr_count})")
         lf = b.count(b"\n")
         if lf < MIN_EXPECTED_NEWLINES:
             failures.append(f"{path}: too few LF newlines (count={lf}); possible single-line YAML")

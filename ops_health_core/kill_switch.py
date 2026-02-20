@@ -19,26 +19,26 @@ def update_kill_switch(
 ) -> OpsSignal:
     """
     Update kill switch state and produce signal.
-    
+
     If state == RED => set cooldown_until = now + cooldown_ms
     During cooldown => deny_actions = True, recommended_action = HOLD
     On any exception: fail-closed (deny_actions=True, recommended_action=HOLD).
-    
+
     Args:
         state: Current ops state
         policy: Ops policy
         now_ms: Current time (ms)
-    
+
     Returns:
         OpsSignal with kill switch recommendations
     """
     # Prune timestamps in-place to avoid unbounded growth (F2 fix)
     from ops_health_core.windows import prune_timestamps_inplace
-    
+
     prune_timestamps_inplace(state.error_timestamps, now_ms, policy.window_ms)
     prune_timestamps_inplace(state.rate_limit_timestamps, now_ms, policy.window_ms)
     prune_timestamps_inplace(state.reconnect_timestamps, now_ms, policy.window_ms)
-    
+
     # Prune latency_samples and latency_timestamps together (P1 fix)
     # Keep only samples with timestamps within window
     cutoff_ms = now_ms - policy.window_ms
@@ -60,7 +60,7 @@ def update_kill_switch(
     elif state.latency_samples:
         # Only samples exist (legacy), clear them
         state.latency_samples.clear()
-    
+
     try:
         score, health_state = compute_health_score(state, policy, now_ms)
     except Exception as e:
@@ -99,6 +99,8 @@ def update_kill_switch(
         state=health_state,
         deny_actions=in_cooldown or health_state == HealthState.RED,
         cooldown_until_ms=state.cooldown_until_ms,
-        recommended_action=Action.HOLD if (in_cooldown or health_state == HealthState.RED) else Action.ACT,
+        recommended_action=Action.HOLD
+        if (in_cooldown or health_state == HealthState.RED)
+        else Action.ACT,
         reasons=reasons,
     )

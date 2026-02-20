@@ -12,13 +12,13 @@ from ops_health_core.model import OpsSignal
 def attach_to_packet(packet: PacketV2, signal: OpsSignal) -> PacketV2:
     """
     Attach ops signal to PacketV2.external dict.
-    
+
     Does NOT modify decision-schema itself; only adds to external dict.
-    
+
     Args:
         packet: PacketV2 instance
         signal: OpsSignal instance
-    
+
     Returns:
         New PacketV2 with ops_health in external dict
     """
@@ -43,10 +43,10 @@ def attach_to_packet(packet: PacketV2, signal: OpsSignal) -> PacketV2:
 def extract_from_packet(packet: PacketV2) -> dict[str, Any] | None:
     """
     Extract ops_health from PacketV2.external dict.
-    
+
     Args:
         packet: PacketV2 instance
-    
+
     Returns:
         Ops health context dict or None if not present
     """

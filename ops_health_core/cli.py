@@ -15,7 +15,9 @@ from ops_health_core.model import OpsPolicy, OpsState
 def main() -> None:
     """Main CLI entry point."""
     parser = argparse.ArgumentParser(description="Ops-Health Core Demo")
-    parser.add_argument("--events", type=Path, help="JSON file with events: [{\"type\": \"error\", \"ts_ms\": 1000}, ...]")
+    parser.add_argument(
+        "--events", type=Path, help='JSON file with events: [{"type": "error", "ts_ms": 1000}, ...]'
+    )
     parser.add_argument("--policy", type=Path, help="JSON file with OpsPolicy config")
 
     args = parser.parse_args()

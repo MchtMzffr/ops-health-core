@@ -12,10 +12,27 @@ import re
 from pathlib import Path
 
 FORBIDDEN_TERMS = {
-    "trade", "trading", "trader", "market", "marketplace",
-    "orderbook", "bid", "ask", "quote", "fill", "exchange",
-    "portfolio", "pnl", "slippage", "spread", "liquidity",
-    "inventory", "exposure", "drawdown", "flatten", "cancel_all",
+    "trade",
+    "trading",
+    "trader",
+    "market",
+    "marketplace",
+    "orderbook",
+    "bid",
+    "ask",
+    "quote",
+    "fill",
+    "exchange",
+    "portfolio",
+    "pnl",
+    "slippage",
+    "spread",
+    "liquidity",
+    "inventory",
+    "exposure",
+    "drawdown",
+    "flatten",
+    "cancel_all",
 }
 
 PUBLIC_SURFACE_PATHS = ["README.md", "docs/", "ops_health_core/"]

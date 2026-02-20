@@ -3,8 +3,6 @@
 # SPDX-License-Identifier: MIT
 """Fail-closed on exception: update_kill_switch must return deny_actions=True, recommended_action=HOLD."""
 
-import pytest
-
 from decision_schema.types import Action
 from ops_health_core.kill_switch import update_kill_switch
 from ops_health_core.model import OpsPolicy, OpsState
@@ -18,7 +16,9 @@ def test_fail_closed_on_exception() -> None:
     policy = OpsPolicy()
     now_ms = 10000
 
-    with patch("ops_health_core.kill_switch.compute_health_score", side_effect=RuntimeError("simulated")):
+    with patch(
+        "ops_health_core.kill_switch.compute_health_score", side_effect=RuntimeError("simulated")
+    ):
         signal = update_kill_switch(state, policy, now_ms)
 
     assert signal.deny_actions is True

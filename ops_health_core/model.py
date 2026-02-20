@@ -63,7 +63,7 @@ class OpsSignal:
     def to_context(self) -> dict[str, Any]:
         """
         Convert to context dict for DMC integration.
-        
+
         Returns:
             Dict with ops_health fields
         """

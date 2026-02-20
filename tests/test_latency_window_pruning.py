@@ -3,7 +3,6 @@
 # SPDX-License-Identifier: MIT
 """Tests for latency window-based pruning (P1 fix)."""
 
-import pytest
 from ops_health_core.kill_switch import update_kill_switch
 from ops_health_core.model import OpsPolicy, OpsState
 
@@ -22,7 +21,7 @@ def test_latency_samples_pruned_by_window() -> None:
     state.latency_timestamps.extend([4500, 4800])  # Inside window
 
     # Update kill switch (prunes timestamps and syncs samples)
-    signal = update_kill_switch(state, policy, now_ms)
+    update_kill_switch(state, policy, now_ms)
 
     # After pruning: only samples within window should remain
     assert len(state.latency_samples) == len(state.latency_timestamps)
@@ -40,7 +39,7 @@ def test_latency_samples_synced_with_timestamps() -> None:
     state.latency_samples = [100, 200, 300]
     state.latency_timestamps = [4500, 4800]  # One less timestamp
 
-    signal = update_kill_switch(state, policy, now_ms)
+    update_kill_switch(state, policy, now_ms)
 
     # After sync: lengths must match
     assert len(state.latency_samples) == len(state.latency_timestamps)
@@ -78,7 +77,7 @@ def test_latency_empty_after_pruning() -> None:
     state.latency_samples = [100, 200]
     state.latency_timestamps = [1000, 2000]  # Both < 4000 (cutoff)
 
-    signal = update_kill_switch(state, policy, now_ms)
+    update_kill_switch(state, policy, now_ms)
 
     # After pruning: empty lists
     assert len(state.latency_samples) == 0
