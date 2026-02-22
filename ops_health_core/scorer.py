@@ -61,7 +61,8 @@ def compute_health_score(
             if n > 0:
                 p95_idx = int(0.95 * n)
                 p95_latency = sorted_latencies[min(p95_idx, n - 1)]
-                if p95_latency > policy.max_p95_latency_ms:
+                # Guard: avoid division by zero when max_p95_latency_ms is 0 or negative
+                if policy.max_p95_latency_ms > 0 and p95_latency > policy.max_p95_latency_ms:
                     p_lat = min(
                         1.0, (p95_latency - policy.max_p95_latency_ms) / policy.max_p95_latency_ms
                     )
