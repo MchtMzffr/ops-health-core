@@ -17,6 +17,6 @@ def test_inv_ops_formulas_no_legacy_param_names() -> None:
     for bad in forbidden:
         assert bad not in text, f"INV-OPS-DOC-1: FORMULAS.md must not contain {bad!r}"
     # Code-aligned param must appear
-    assert "max_429_per_window" in text, (
-        "INV-OPS-DOC-1: FORMULAS.md should document max_429_per_window"
-    )
+    assert (
+        "max_429_per_window" in text
+    ), "INV-OPS-DOC-1: FORMULAS.md should document max_429_per_window"
